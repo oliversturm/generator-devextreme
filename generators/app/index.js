@@ -17,18 +17,11 @@ module.exports = class extends Generator {
       type: String
     });
 
-    this.option('globalize', {
-      desc: 'Include support for Globalize. This option and --intl are mutually exclusive.',
-      type: Boolean,
-      default: true,
-      alias: 'g'
-    });
-
-    this.option('intl', {
-      desc: 'Include support for Intl. This option and --globalize are mutually exclusive.',
-      type: Boolean,
-      default: false,
-      alias: 'i'
+    this.option('localization', {
+      desc: 'Include support for a globalization/localization library. One of globalize, intl. Use --no-localization to switch off.',
+      default: 'globalize',
+      type: this._oneOf(['globalize', 'intl'], 'globalize', true),
+      alias: 'l'
     });
 
     this.option('packaging', {
@@ -38,21 +31,24 @@ module.exports = class extends Generator {
       alias: 'p'
     });
 
-    this.option('languages', {
+    this.option('addlang', {
       desc: "Additional DevExtreme languages to load (other than 'en'). Comma-delimited.",
       default: undefined,
-      alias: 'l',
+      alias: 'al',
       type: String
     });
   }
 
-  _oneOf(options, defaultvalue) {
+  _oneOf(options, defaultvalue, allowUndefined = false) {
     return fp.compose(
       v =>
-        options.find(o => v.toLowerCase() === o) ||
-        options.find(o => o.startsWith(v.toLowerCase())) ||
-        defaultvalue,
-      v => v.toLowerCase()
+        v
+          ? options.find(o => v.toLowerCase() === o) ||
+              options.find(o => o.startsWith(v.toLowerCase())) ||
+              defaultvalue
+          : allowUndefined ? undefined : defaultvalue,
+      v => (v ? v.toLowerCase() : undefined),
+      v => (typeof v === 'string' ? v : undefined)
     );
   }
 
@@ -98,11 +94,31 @@ module.exports = class extends Generator {
     );
   }
 
+  _writingjQuery() {
+    this.fs.copy(
+      this.templatePath('jquery/src/index.html'),
+      this.destinationPath('src/index.html')
+    );
+    this.fs.copyTpl(
+      this.templatePath('jquery/src/index.js'),
+      this.destinationPath('src/index.js'),
+      {
+        localization: this.options.localization
+      }
+    );
+  }
+
+  writing() {
+    return {
+      jquery: this._writingjQuery.bind(this)
+    }[this.options.apptype]();
+  }
+
   method1() {
     this.log(`Appname is: ${this.appname}`);
 
     this.log(
-      `Apptype: ${this.options.apptype}, globalize: ${this.options.globalize}, intl: ${this.options.intl}, packaging: ${this.options.packaging}`
+      `Apptype: ${this.options.apptype}, localization: ${this.options.localization}, packaging: ${this.options.packaging}, addlang: ${this.options.addlang}`
     );
   }
 };
