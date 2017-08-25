@@ -1,0 +1,28 @@
+{
+  "name": "generator-devextreme",
+  "version": "1.0.0",
+  "description": "A Yeoman generator for DevExtreme projects",
+  "files": [
+    "generators"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oliversturm/generator-devextreme.git"
+  },
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "author": "Oliver Sturm <oliver@oliversturm.com>",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/oliversturm/generator-devextreme/issues"
+  },
+  "homepage": "https://github.com/oliversturm/generator-devextreme#readme",
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "yeoman-generator": "^1.1.1"
+  }
+}
