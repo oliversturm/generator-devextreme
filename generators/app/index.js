@@ -9,6 +9,10 @@ module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
 
+    // Whyever yeoman replaces the dashes in my appname with spaces,
+    // I don't know. At least for my use of appname this doesn't make sense.
+    this.appname = this.appname.replace(/\s+/g, '-');
+
     this.registerTransformStream(prettier());
 
     this.argument('apptype', {
@@ -91,7 +95,16 @@ module.exports = class extends Generator {
       js: {
         webpack: {
           jquery: {
-            files: ['src/index.html', 'src/index.js']
+            files: [
+              'src/index.html',
+              'src/index.js',
+              'README.md',
+              'webpack.common.js',
+              'webpack.dev.js',
+              'webpack.prod.js',
+              'package.json',
+              '.gitignore'
+            ]
           }
         }
       }
@@ -111,14 +124,6 @@ module.exports = class extends Generator {
         that.destinationPath(f),
         that.options
       )
-    );
-  }
-
-  method1() {
-    this.log(`Appname is: ${this.appname}`);
-
-    this.log(
-      `Apptype: ${this.options.apptype}, localization: ${this.options.localization}, packaging: ${this.options.packaging}, addlang: ${this.options.addlang}`
     );
   }
 };

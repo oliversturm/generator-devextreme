@@ -11,7 +11,8 @@ const $ = require('jquery');
         require('cldr-data/main/en/ca-gregorian.json'),
         require('cldr-data/main/en/numbers.json'),
         require('cldr-data/main/en/currencies.json'),
-        <% if (addlang) addlang.forEach(function (lang) { %>        
+        <% if (addlang) addlang.forEach(function (lang) { %>
+            // CLDR data for <%- lang %>
             require('cldr-data/main/<%- lang %>/ca-gregorian.json'),
             require('cldr-data/main/<%- lang %>/numbers.json'),
             require('cldr-data/main/<%- lang %>/currencies.json'),
@@ -26,8 +27,10 @@ const $ = require('jquery');
     const { loadMessages, locale } = require('devextreme/localization');
 
     <% if (addlang) { addlang.forEach(function (lang) { -%>
+        // DevExtreme messages for <%- lang %>
         loadMessages(require('devextreme/localization/messages/<%- lang %>.json'));
         <% }); %>
+        // Setting locale depending on browser settings
         locale(navigator.language || navigator.browserLanguage);
         // Alternatively, set a specific locale:
         // locale('de');
