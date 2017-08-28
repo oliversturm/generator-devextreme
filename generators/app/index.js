@@ -1,12 +1,15 @@
+const path = require('path');
 const Generator = require('yeoman-generator');
 const fp = require('lodash/fp');
+
+const { stringOnly, toLowerCase, oneOf, fromCsv } = require('./optionHelpers');
 
 module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
 
     this.argument('apptype', {
-      type: this._oneOf(['jquery', 'knockout', 'angular', 'react'], undefined),
+      type: oneOf(['jquery', 'knockout', 'angular', 'react'], undefined),
       required: false,
       desc: 'The type of application project to create. One of jquery, knockout, angular, react.'
     });
@@ -20,13 +23,13 @@ module.exports = class extends Generator {
     this.option('localization', {
       desc: 'Include support for a globalization/localization library. One of globalize, intl. Use --no-localization to switch off.',
       default: 'globalize',
-      type: this._oneOf(['globalize', 'intl'], 'globalize', true),
+      type: oneOf(['globalize', 'intl'], 'globalize', true),
       alias: 'l'
     });
 
     this.option('packaging', {
       desc: 'Packaging to use for JavaScript files. One of webpack, usecdn.',
-      type: this._oneOf(['webpack', 'usecdn'], 'webpack'),
+      type: oneOf(['webpack', 'usecdn'], 'webpack'),
       default: 'webpack',
       alias: 'p'
     });
@@ -34,22 +37,8 @@ module.exports = class extends Generator {
     this.option('addlang', {
       desc: "Additional DevExtreme languages to load (other than 'en'). Comma-delimited.",
       default: undefined,
-      alias: 'al',
-      type: String
+      type: fromCsv()
     });
-  }
-
-  _oneOf(options, defaultvalue, allowUndefined = false) {
-    return fp.compose(
-      v =>
-        v
-          ? options.find(o => v.toLowerCase() === o) ||
-              options.find(o => o.startsWith(v.toLowerCase())) ||
-              defaultvalue
-          : allowUndefined ? undefined : defaultvalue,
-      v => (v ? v.toLowerCase() : undefined),
-      v => (typeof v === 'string' ? v : undefined)
-    );
   }
 
   _buildPrompts() {
@@ -94,24 +83,32 @@ module.exports = class extends Generator {
     );
   }
 
-  _writingjQuery() {
-    this.fs.copy(
-      this.templatePath('jquery/src/index.html'),
-      this.destinationPath('src/index.html')
-    );
-    this.fs.copyTpl(
-      this.templatePath('jquery/src/index.js'),
-      this.destinationPath('src/index.js'),
-      {
-        localization: this.options.localization
+  _buildWritingConfig() {
+    return {
+      js: {
+        webpack: {
+          jquery: {
+            files: ['src/index.html', 'src/index.js']
+          }
+        }
       }
-    );
+    };
   }
 
   writing() {
-    return {
-      jquery: this._writingjQuery.bind(this)
-    }[this.options.apptype]();
+    const that = this;
+
+    this._buildWritingConfig()['js'][this.options.packaging][
+      this.options.apptype
+    ].files.forEach(f =>
+      that.fs.copyTpl(
+        that.templatePath(
+          path.join('js', that.options.packaging, that.options.apptype, f)
+        ),
+        that.destinationPath(f),
+        that.options
+      )
+    );
   }
 
   method1() {
