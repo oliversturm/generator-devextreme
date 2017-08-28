@@ -23,6 +23,8 @@
   "homepage": "https://github.com/oliversturm/generator-devextreme#readme",
   "dependencies": {
     "lodash": "^4.17.4",
+    "prettier": "^1.5.3",
+    "through2": "^2.0.3",
     "yeoman-generator": "^1.1.1"
   },
   "devDependencies": {

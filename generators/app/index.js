@@ -1,12 +1,15 @@
 const path = require('path');
 const Generator = require('yeoman-generator');
 const fp = require('lodash/fp');
+const prettier = require('./prettier-transform');
 
 const { stringOnly, toLowerCase, oneOf, fromCsv } = require('./optionHelpers');
 
 module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
+
+    this.registerTransformStream(prettier());
 
     this.argument('apptype', {
       type: oneOf(['jquery', 'knockout', 'angular', 'react'], undefined),
