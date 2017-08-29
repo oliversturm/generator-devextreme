@@ -106,6 +106,19 @@ module.exports = class extends Generator {
               'package.json',
               '.gitignore'
             ]
+          },
+          knockout: {
+            files: [
+              'src/index.html',
+              'src/index.js',
+              'src/localization.js',
+              'README.md',
+              'webpack.common.js',
+              'webpack.dev.js',
+              'webpack.prod.js',
+              'package.json',
+              '.gitignore'
+            ]
           }
         }
       }
