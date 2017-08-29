@@ -41,8 +41,8 @@ module.exports = class extends Generator {
       alias: 'p'
     });
 
-    this.option('addlang', {
-      desc: "Additional DevExtreme languages to load (other than 'en'). Comma-delimited.",
+    this.option('locales', {
+      desc: "Additional locales to load (other than 'en'). Comma-delimited.",
       default: undefined,
       type: fromCsv()
     });
@@ -98,6 +98,7 @@ module.exports = class extends Generator {
             files: [
               'src/index.html',
               'src/index.js',
+              'src/localization.js',
               'README.md',
               'webpack.common.js',
               'webpack.dev.js',

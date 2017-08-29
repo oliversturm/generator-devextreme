@@ -27,11 +27,7 @@ function oneOf(options, defaultvalue, allowUndefined = false) {
 }
 
 function fromCsv() {
-  return fp.compose(
-    v => (v ? v.split(/\s*,\s*/) : undefined),
-    toLowerCase,
-    stringOnly
-  );
+  return fp.compose(v => (v ? v.split(/\s*,\s*/) : undefined), stringOnly);
 }
 
 module.exports = {

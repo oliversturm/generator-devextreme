@@ -13,6 +13,7 @@ describe('devextreme:app js', function() {
             assert.file([
               'src/index.html',
               'src/index.js',
+              'src/localization.js',
               'README.md',
               'webpack.common.js',
               'webpack.dev.js',
@@ -20,7 +21,7 @@ describe('devextreme:app js', function() {
               'package.json',
               '.gitignore'
             ]);
-            assert.fileContent('src/index.js', /require..globalize/);
+            assert.fileContent('src/localization.js', /require..globalize/);
             assert.fileContent('webpack.common.js', /globalize: path.resolve/);
             assert.fileContent('package.json', 'cldr-data');
             assert.fileContent('package.json', 'globalize');
@@ -28,17 +29,18 @@ describe('devextreme:app js', function() {
           });
       });
 
-      it('addlang de', function(done) {
+      it('locales de', function(done) {
         yt
           .run(path.join(__dirname, '../generators/app'))
           .withArguments(['jquery'])
           .withOptions({
-            addlang: 'de'
+            locales: 'de'
           })
           .then(() => {
             assert.file([
               'src/index.html',
               'src/index.js',
+              'src/localization.js',
               'README.md',
               'webpack.common.js',
               'webpack.dev.js',
@@ -46,16 +48,10 @@ describe('devextreme:app js', function() {
               'package.json',
               '.gitignore'
             ]);
-            assert.fileContent('src/index.js', /require..globalize/);
-            assert.fileContent(
-              'src/index.js',
-              'cldr-data/main/de/ca-gregorian.json'
-            );
-            assert.fileContent(
-              'src/index.js',
-              'devextreme/localization/messages/de.json'
-            );
-            assert.fileContent('src/index.js', 'locale(navigator');
+            assert.fileContent('src/localization.js', /require..globalize/);
+            assert.fileContent('src/localization.js', 'cldr-data/main/');
+            assert.fileContent('src/localization.js', "locales = ['en', 'de']");
+            assert.fileContent('src/localization.js', 'navigator.language');
             assert.fileContent('webpack.common.js', /globalize: path.resolve/);
             assert.fileContent('package.json', 'cldr-data');
             assert.fileContent('package.json', 'globalize');
@@ -78,6 +74,7 @@ describe('devextreme:app js', function() {
             assert.file([
               'src/index.html',
               'src/index.js',
+              'src/localization.js',
               'README.md',
               'webpack.common.js',
               'webpack.dev.js',
@@ -85,8 +82,11 @@ describe('devextreme:app js', function() {
               'package.json',
               '.gitignore'
             ]);
-            assert.fileContent('src/index.js', /require..devextreme-intl/);
-            assert.noFileContent('src/index.js', 'lobalize');
+            assert.fileContent(
+              'src/localization.js',
+              /require..devextreme-intl/
+            );
+            assert.noFileContent('src/localization.js', 'lobalize');
             assert.noFileContent(
               'webpack.common.js',
               /globalize: path.resolve/
@@ -98,18 +98,19 @@ describe('devextreme:app js', function() {
           });
       });
 
-      it('addlang de', function(done) {
+      it('locales de', function(done) {
         yt
           .run(path.join(__dirname, '../generators/app'))
           .withArguments(['jquery'])
           .withOptions({
-            addlang: 'de',
+            locales: 'de',
             localization: 'intl'
           })
           .then(() => {
             assert.file([
               'src/index.html',
               'src/index.js',
+              'src/localization.js',
               'README.md',
               'webpack.common.js',
               'webpack.dev.js',
@@ -117,8 +118,11 @@ describe('devextreme:app js', function() {
               'package.json',
               '.gitignore'
             ]);
-            assert.fileContent('src/index.js', /require..devextreme-intl/);
-            assert.noFileContent('src/index.js', 'lobalize');
+            assert.fileContent(
+              'src/localization.js',
+              /require..devextreme-intl/
+            );
+            assert.noFileContent('src/localization.js', 'lobalize');
             assert.noFileContent(
               'webpack.common.js',
               /globalize: path.resolve/
@@ -127,12 +131,9 @@ describe('devextreme:app js', function() {
             assert.noFileContent('package.json', 'globalize');
             assert.fileContent('package.json', 'devextreme-intl');
 
-            assert.noFileContent('src/index.js', 'cldr-data');
-            assert.fileContent(
-              'src/index.js',
-              'devextreme/localization/messages/de.json'
-            );
-            assert.fileContent('src/index.js', 'locale(navigator');
+            assert.noFileContent('src/localization.js', 'cldr-data');
+            assert.fileContent('src/localization.js', "locales = ['en', 'de']");
+            assert.fileContent('src/localization.js', 'navigator.language');
             done();
           });
       });

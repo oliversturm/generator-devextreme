@@ -40,18 +40,18 @@ module.exports = {
       ]
   },
 <% if (localization === 'globalize') { %>
-        resolve: {
-            alias: {
-                globalize$: path.resolve(
-                    __dirname,
-                    'node_modules/globalize/dist/globalize.js'
-                ),
-                globalize: path.resolve(
-                    __dirname,
-                    'node_modules/globalize/dist/globalize'
-                ),
-                cldr$: path.resolve(__dirname, 'node_modules/cldrjs/dist/cldr.js'),
-                cldr: path.resolve(__dirname, 'node_modules/cldrjs/dist/cldr')
+  resolve: {
+    alias: {
+      globalize$: path.resolve(
+        __dirname,
+        'node_modules/globalize/dist/globalize.js'
+      ),
+      globalize: path.resolve(
+        __dirname,
+        'node_modules/globalize/dist/globalize'
+      ),
+      cldr$: path.resolve(__dirname, 'node_modules/cldrjs/dist/cldr.js'),
+      cldr: path.resolve(__dirname, 'node_modules/cldrjs/dist/cldr')
     }
   },
 <% } %>
@@ -60,5 +60,17 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'src/index.html'
     })
+<% if (localization === 'globalize') { -%>,        
+    new webpack.ContextReplacementPlugin(
+      /cldr-data\/main/,
+      /^\.\/(en<% if (locales) locales.forEach(function (l) { %>|<%- l %><% }); %>)\/(ca-gregorian|numbers|currencies)\.json$/
+    )
+<% } %>    
+<% if (localization && locales && locales.length) { -%>,
+    new webpack.ContextReplacementPlugin(
+      /devextreme\/localization\/messages/,
+      /^\.\/(<% locales.forEach(function (l, i) { if (i > 0) { %>|<% } %><%- l %><% }); %>)\.json$/
+    )
+<% } %>            
   ]
 };
