@@ -2,10 +2,6 @@
   "name": "<%- appname %>",
   "version": "1.0.0",
   "description": "An application based on jQuery and DevExtreme",
-  "dependencies": {
-    "jquery": "^3.1.1",
-    "devextreme": "~17.1.4"
-  },
   "devDependencies": {
 <% if (localization === 'globalize') { -%>
     "cldr-data": "^31.0.2",
@@ -13,6 +9,8 @@
 <% } else if (localization === 'intl') { -%>
     "devextreme-intl": "~17.1.4",
 <% } -%>
+    "jquery": "^3.1.1",
+    "devextreme": "~17.1.4",
     "css-loader": "^0.28.5",
     "file-loader": "^0.11.2",
     "html-loader": "^0.5.1",
