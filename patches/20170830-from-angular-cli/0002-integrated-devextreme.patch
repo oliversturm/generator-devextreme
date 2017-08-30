@@ -1,0 +1,283 @@
+From 0d8e60625862703accc9de5a706bdeb211718b41 Mon Sep 17 00:00:00 2001
+From: Oliver Sturm <oliver@oliversturm.com>
+Date: Wed, 30 Aug 2017 10:15:43 +0100
+Subject: [PATCH 2/3] integrated devextreme
+
+---
+ .angular-cli.json          |   2 +
+ package-lock.json          | 102 ++++++++++++++++++++++++++++++++++++++++-----
+ package.json               |   2 +
+ src/app/app.component.html |   3 ++
+ src/app/app.component.ts   |   6 ++-
+ src/app/app.module.ts      |   6 ++-
+ 6 files changed, 109 insertions(+), 12 deletions(-)
+
+diff --git a/.angular-cli.json b/.angular-cli.json
+index 30e25c2..a91ed32 100644
+--- a/.angular-cli.json
++++ b/.angular-cli.json
+@@ -19,6 +19,8 @@
+       "testTsconfig": "tsconfig.spec.json",
+       "prefix": "app",
+       "styles": [
++        "../node_modules/devextreme/dist/css/dx.common.css",
++        "../node_modules/devextreme/dist/css/dx.light.css",
+         "styles.css"
+       ],
+       "scripts": [],
+diff --git a/package-lock.json b/package-lock.json
+index 1c366b5..6312637 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -224,6 +224,11 @@
+         "@types/jasmine": "2.5.54"
+       }
+     },
++    "@types/jquery": {
++      "version": "3.2.12",
++      "resolved": "https://registry.npmjs.org/@types/jquery/-/jquery-3.2.12.tgz",
++      "integrity": "sha512-xZzTbUju6AYFE/088UcH2+dB7yTLHlujDju9pfncD1WLl2LWa6Mn+WzKjFfhn8YA+he53j5K0Rfdw89BN0kDug=="
++    },
+     "@types/node": {
+       "version": "6.0.88",
+       "resolved": "https://registry.npmjs.org/@types/node/-/node-6.0.88.tgz",
+@@ -1587,8 +1592,7 @@
+     "core-util-is": {
+       "version": "1.0.2",
+       "resolved": "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.2.tgz",
+-      "integrity": "sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=",
+-      "dev": true
++      "integrity": "sha1-tf1UIgqivFq1eqtxQMlAdUUDwac="
+     },
+     "cosmiconfig": {
+       "version": "2.2.2",
+@@ -1975,6 +1979,23 @@
+       "integrity": "sha1-ogM8CcyOFY03dI+951B4Mr1s4Sc=",
+       "dev": true
+     },
++    "devextreme": {
++      "version": "17.1.5",
++      "resolved": "https://registry.npmjs.org/devextreme/-/devextreme-17.1.5.tgz",
++      "integrity": "sha1-eJT2e/9Wfetji+PI/5k1WeSNpb0=",
++      "requires": {
++        "jszip": "3.1.4"
++      }
++    },
++    "devextreme-angular": {
++      "version": "17.1.5",
++      "resolved": "https://registry.npmjs.org/devextreme-angular/-/devextreme-angular-17.1.5.tgz",
++      "integrity": "sha1-eqJEaY6DBIH+gyZpjySqawAjvk4=",
++      "requires": {
++        "@types/jquery": "3.2.12",
++        "jquery": "3.2.1"
++      }
++    },
+     "di": {
+       "version": "0.0.1",
+       "resolved": "https://registry.npmjs.org/di/-/di-0.0.1.tgz",
+@@ -2380,6 +2401,11 @@
+         "event-emitter": "0.3.5"
+       }
+     },
++    "es6-promise": {
++      "version": "3.0.2",
++      "resolved": "https://registry.npmjs.org/es6-promise/-/es6-promise-3.0.2.tgz",
++      "integrity": "sha1-AQ1YWEI6XxGJeWZfRkhqlcbuK7Y="
++    },
+     "es6-set": {
+       "version": "0.1.5",
+       "resolved": "https://registry.npmjs.org/es6-set/-/es6-set-0.1.5.tgz",
+@@ -3557,6 +3583,11 @@
+         "xmldom": "0.1.27"
+       }
+     },
++    "immediate": {
++      "version": "3.0.6",
++      "resolved": "https://registry.npmjs.org/immediate/-/immediate-3.0.6.tgz",
++      "integrity": "sha1-nbHb0Pr43m++D13V5Wu2BigN5ps="
++    },
+     "in-publish": {
+       "version": "2.0.0",
+       "resolved": "https://registry.npmjs.org/in-publish/-/in-publish-2.0.0.tgz",
+@@ -3604,8 +3635,7 @@
+     "inherits": {
+       "version": "2.0.3",
+       "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.3.tgz",
+-      "integrity": "sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=",
+-      "dev": true
++      "integrity": "sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4="
+     },
+     "ini": {
+       "version": "1.3.4",
+@@ -4166,6 +4196,11 @@
+       "integrity": "sha1-2llSddGuYx3nNqwKfH2Fyfc+9lI=",
+       "dev": true
+     },
++    "jquery": {
++      "version": "3.2.1",
++      "resolved": "https://registry.npmjs.org/jquery/-/jquery-3.2.1.tgz",
++      "integrity": "sha1-XE2d5lKvbNCncBVKYxu6ErAVx4c="
++    },
+     "js-base64": {
+       "version": "2.1.9",
+       "resolved": "https://registry.npmjs.org/js-base64/-/js-base64-2.1.9.tgz",
+@@ -4287,6 +4322,48 @@
+         }
+       }
+     },
++    "jszip": {
++      "version": "3.1.4",
++      "resolved": "https://registry.npmjs.org/jszip/-/jszip-3.1.4.tgz",
++      "integrity": "sha512-z6w8iYIxZ/fcgul0j/OerkYnkomH8BZigvzbxVmr2h5HkZUrPtk2kjYtLkqR9wwQxEP6ecKNoKLsbhd18jfnGA==",
++      "requires": {
++        "core-js": "2.3.0",
++        "es6-promise": "3.0.2",
++        "lie": "3.1.1",
++        "pako": "1.0.5",
++        "readable-stream": "2.0.6"
++      },
++      "dependencies": {
++        "core-js": {
++          "version": "2.3.0",
++          "resolved": "https://registry.npmjs.org/core-js/-/core-js-2.3.0.tgz",
++          "integrity": "sha1-+rg/uwstjchfpjbEudNMdUIMbWU="
++        },
++        "isarray": {
++          "version": "1.0.0",
++          "resolved": "https://registry.npmjs.org/isarray/-/isarray-1.0.0.tgz",
++          "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
++        },
++        "pako": {
++          "version": "1.0.5",
++          "resolved": "https://registry.npmjs.org/pako/-/pako-1.0.5.tgz",
++          "integrity": "sha1-0iBd/ludqK95fnwWPbTR+E5GALw="
++        },
++        "readable-stream": {
++          "version": "2.0.6",
++          "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-2.0.6.tgz",
++          "integrity": "sha1-j5A0HmilPMySh4jaz80Rs265t44=",
++          "requires": {
++            "core-util-is": "1.0.2",
++            "inherits": "2.0.3",
++            "isarray": "1.0.0",
++            "process-nextick-args": "1.0.7",
++            "string_decoder": "0.10.31",
++            "util-deprecate": "1.0.2"
++          }
++        }
++      }
++    },
+     "karma": {
+       "version": "1.7.0",
+       "resolved": "https://registry.npmjs.org/karma/-/karma-1.7.0.tgz",
+@@ -4461,6 +4538,14 @@
+         "object-assign": "4.1.1"
+       }
+     },
++    "lie": {
++      "version": "3.1.1",
++      "resolved": "https://registry.npmjs.org/lie/-/lie-3.1.1.tgz",
++      "integrity": "sha1-mkNrLMd0bKWd56QfpGmz77dr2H4=",
++      "requires": {
++        "immediate": "3.0.6"
++      }
++    },
+     "load-json-file": {
+       "version": "1.1.0",
+       "resolved": "https://registry.npmjs.org/load-json-file/-/load-json-file-1.1.0.tgz",
+@@ -6157,8 +6242,7 @@
+     "process-nextick-args": {
+       "version": "1.0.7",
+       "resolved": "https://registry.npmjs.org/process-nextick-args/-/process-nextick-args-1.0.7.tgz",
+-      "integrity": "sha1-FQ4gt1ZZCtP5EJPyWk8q2L/zC6M=",
+-      "dev": true
++      "integrity": "sha1-FQ4gt1ZZCtP5EJPyWk8q2L/zC6M="
+     },
+     "promise": {
+       "version": "7.3.1",
+@@ -7622,8 +7706,7 @@
+     "string_decoder": {
+       "version": "0.10.31",
+       "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-0.10.31.tgz",
+-      "integrity": "sha1-YuIDvEF2bGwoyfyEMB2rHFMQ+pQ=",
+-      "dev": true
++      "integrity": "sha1-YuIDvEF2bGwoyfyEMB2rHFMQ+pQ="
+     },
+     "string-width": {
+       "version": "2.1.1",
+@@ -8272,8 +8355,7 @@
+     "util-deprecate": {
+       "version": "1.0.2",
+       "resolved": "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz",
+-      "integrity": "sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=",
+-      "dev": true
++      "integrity": "sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8="
+     },
+     "utila": {
+       "version": "0.4.0",
+diff --git a/package.json b/package.json
+index 1f1e141..ee8eb27 100644
+--- a/package.json
++++ b/package.json
+@@ -22,6 +22,8 @@
+     "@angular/platform-browser-dynamic": "^4.2.4",
+     "@angular/router": "^4.2.4",
+     "core-js": "^2.4.1",
++    "devextreme": "^17.1.5",
++    "devextreme-angular": "^17.1.5",
+     "rxjs": "^5.4.2",
+     "zone.js": "^0.8.14"
+   },
+diff --git a/src/app/app.component.html b/src/app/app.component.html
+index 230f4ed..859391a 100644
+--- a/src/app/app.component.html
++++ b/src/app/app.component.html
+@@ -16,5 +16,8 @@
+   <li>
+     <h2><a target="_blank" href="https://blog.angular.io//">Angular blog</a></h2>
+   </li>
++
++  <dx-button text="Say 'Hello world'" (onClick)="helloWorld()"></dx-button>
++  <dx-date-box placeholder="Please enter a date"></dx-date-box>
+ </ul>
+ 
+diff --git a/src/app/app.component.ts b/src/app/app.component.ts
+index 7b0f672..7afbc69 100644
+--- a/src/app/app.component.ts
++++ b/src/app/app.component.ts
+@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
+   styleUrls: ['./app.component.css']
+ })
+ export class AppComponent {
+-  title = 'app';
++    title = 'app';
++
++    helloWorld() {
++        alert('Hello World!');
++    }
+ }
+diff --git a/src/app/app.module.ts b/src/app/app.module.ts
+index f657163..dc5fd13 100644
+--- a/src/app/app.module.ts
++++ b/src/app/app.module.ts
+@@ -3,12 +3,16 @@ import { NgModule } from '@angular/core';
+ 
+ import { AppComponent } from './app.component';
+ 
++import { DxButtonModule, DxDateBoxModule } from 'devextreme-angular';
++
+ @NgModule({
+   declarations: [
+     AppComponent
+   ],
+   imports: [
+-    BrowserModule
++      BrowserModule,
++      DxButtonModule,
++      DxDateBoxModule
+   ],
+   providers: [],
+   bootstrap: [AppComponent]
+-- 
+2.9.3
+

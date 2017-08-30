@@ -1,7 +1,7 @@
 {
   "name": "<%- appname %>",
   "version": "1.0.0",
-  "description": "An application based on jQuery and DevExtreme",
+  "description": "An application based on Knockout and DevExtreme",
   "devDependencies": {
 <% if (localization === 'globalize') { -%>
     "cldr-data": "^31.0.2",

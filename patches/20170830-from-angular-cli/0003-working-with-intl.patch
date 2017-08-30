@@ -1,0 +1,127 @@
+From b61bb4102d9d0196c6320f3f9fff6510e66b538d Mon Sep 17 00:00:00 2001
+From: Oliver Sturm <oliver@oliversturm.com>
+Date: Wed, 30 Aug 2017 10:37:48 +0100
+Subject: [PATCH 3/3] working with intl
+
+---
+ .gitignore                 |  2 ++
+ package-lock.json          |  5 +++++
+ package.json               |  1 +
+ src/app/app.component.html |  6 ++++--
+ src/app/app.module.ts      |  2 ++
+ src/app/localization.ts    | 36 ++++++++++++++++++++++++++++++++++++
+ 6 files changed, 50 insertions(+), 2 deletions(-)
+ create mode 100644 src/app/localization.ts
+
+diff --git a/.gitignore b/.gitignore
+index 6b66814..f31a89e 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -41,3 +41,5 @@ yarn-error.log
+ # System Files
+ .DS_Store
+ Thumbs.db
++
++*~
+diff --git a/package-lock.json b/package-lock.json
+index 6312637..083536e 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -1996,6 +1996,11 @@
+         "jquery": "3.2.1"
+       }
+     },
++    "devextreme-intl": {
++      "version": "17.1.4",
++      "resolved": "https://registry.npmjs.org/devextreme-intl/-/devextreme-intl-17.1.4.tgz",
++      "integrity": "sha1-ucUAQKG2U0spu1HUaCBgtVKEHbM="
++    },
+     "di": {
+       "version": "0.0.1",
+       "resolved": "https://registry.npmjs.org/di/-/di-0.0.1.tgz",
+diff --git a/package.json b/package.json
+index ee8eb27..2f30ef7 100644
+--- a/package.json
++++ b/package.json
+@@ -24,6 +24,7 @@
+     "core-js": "^2.4.1",
+     "devextreme": "^17.1.5",
+     "devextreme-angular": "^17.1.5",
++    "devextreme-intl": "^17.1.4",
+     "rxjs": "^5.4.2",
+     "zone.js": "^0.8.14"
+   },
+diff --git a/src/app/app.component.html b/src/app/app.component.html
+index 859391a..05fe725 100644
+--- a/src/app/app.component.html
++++ b/src/app/app.component.html
+@@ -17,7 +17,9 @@
+     <h2><a target="_blank" href="https://blog.angular.io//">Angular blog</a></h2>
+   </li>
+ 
+-  <dx-button text="Say 'Hello world'" (onClick)="helloWorld()"></dx-button>
+-  <dx-date-box placeholder="Please enter a date"></dx-date-box>
+ </ul>
+ 
++<h2>DevExtreme widgets:</h2>
++<dx-button text="Say 'Hello world'" (onClick)="helloWorld()"></dx-button>
++<dx-date-box placeholder="Please enter a date"></dx-date-box>
++
+diff --git a/src/app/app.module.ts b/src/app/app.module.ts
+index dc5fd13..690088d 100644
+--- a/src/app/app.module.ts
++++ b/src/app/app.module.ts
+@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
+ 
+ import { DxButtonModule, DxDateBoxModule } from 'devextreme-angular';
+ 
++import './localization';
++
+ @NgModule({
+   declarations: [
+     AppComponent
+diff --git a/src/app/localization.ts b/src/app/localization.ts
+new file mode 100644
+index 0000000..6ef054f
+--- /dev/null
++++ b/src/app/localization.ts
+@@ -0,0 +1,36 @@
++// Pacify TypeScript. Seriously.... types in a dynamic world? Nothing
++// but hassle.
++
++// Not sure why this seems to be required - @types/node is installed
++// and I understand that should make require available. But it doesn't
++// work without an extra configuration like this.
++declare var require: any;
++
++// Extend the Navigator so we can be flexible about retrieving the
++// language prefs from it. Apparently this should work, but it doesn't.
++// interface Navigator {
++//     browserLanguage?: string;
++// }
++declare var navigator: any;
++
++const locales = ['en', 'de'];
++
++import 'devextreme-intl';
++
++const { loadMessages, locale } = require('devextreme/localization');
++        
++const shorten = l => l.replace(/-.*$/, '');
++new Set(locales.map(shorten).filter(i => i !== 'en')).forEach(locale =>
++                                                              loadMessages(require(`devextreme/localization/messages/${locale}.json`))
++                                                             );
++
++// Setting locale depending on browser settings, taking into account
++// available locales.
++const requestedLocale = navigator.language || navigator.browserLanguage;
++const setLocale = locales.find(i => i === requestedLocale) ||
++    locales.find(i => i === shorten(requestedLocale)) ||
++    'en';
++locale(setLocale);
++
++// Alternatively, set a specific locale:
++ locale('de');
+-- 
+2.9.3
+
