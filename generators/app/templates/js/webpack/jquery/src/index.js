@@ -20,6 +20,10 @@ $('#button').dxButton({
   }
 });
 
+<% if (localization === 'intl') { -%>             
+// For date parsing when using Intl localization, please read
+// https://github.com/DevExpress/DevExtreme-Intl#restrictions
+<% } -%>
 $('#datebox').dxDateBox({
   width: '200px',
   placeholder: 'Please enter a date'

@@ -5,6 +5,10 @@ import { AppComponent } from './app.component';
 
 import { DxButtonModule, DxDateBoxModule } from 'devextreme-angular';
 
+<% if (localization === 'intl') { -%>             
+// For date parsing when using Intl localization, please read
+// https://github.com/DevExpress/DevExtreme-Intl#restrictions
+<% } -%>
 <% if (localization) { %>
 import './localization';
 <% } %>

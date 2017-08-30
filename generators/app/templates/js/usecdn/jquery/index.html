@@ -24,6 +24,9 @@
 <% if (locales) new Set(locales.map(function(s) { return s.replace(/-.*$/, ''); }).filter(function(i) { return i !== 'en'; })).forEach(function (locale) { %>
     <script src="https://cdn3.devexpress.com/jslib/17.1.5/js/localization/dx.messages.<%- locale %>.js"></script>
 <% }); %>
+<% if (localization === 'intl') { %>
+    <script src="https://unpkg.com/devextreme-intl/dist/devextreme-intl.min.js"></script>
+<% } %>
   </head>
 
   <body>

@@ -20,6 +20,10 @@ const viewModel = {
       dialog.alert('Hello world!', '', false);
     }
   },
+<% if (localization === 'intl') { -%>             
+// For date parsing when using Intl localization, please read
+// https://github.com/DevExpress/DevExtreme-Intl#restrictions
+<% } -%>
   dateBoxOptions: {
     width: '200px',
     placeholder: 'Please enter a date'
