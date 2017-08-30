@@ -174,6 +174,11 @@ module.exports = class extends Generator {
               '.gitignore'
             ]
           }
+        },
+        usecdn: {
+          jquery: {
+            files: ['index.html', 'index.js', 'README.md', '.gitignore']
+          }
         }
       },
       ts: {
