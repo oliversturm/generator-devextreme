@@ -13,6 +13,23 @@ function toLowerCase(v) {
   return v ? v.toLowerCase() : undefined;
 }
 
+// Remove a pair of ' or " around the string, plus
+// any whitespace before or after the ' or ".
+// The following variations:
+// ' de, en-GB  '
+//   'de, en-GB '
+// de, en-GB
+// ... and others
+// all result in de, en-GB
+function stripParam(s) {
+  return s.replace(/^\s*[\'"]?\s*(.*?)\s*[\'"]?\s*$/, '$1');
+}
+
+function noEmptyArray(a) {
+  if (!a || !a.length || a.length <= 0) return undefined;
+  else return a;
+}
+
 function oneOf(options, defaultvalue, allowUndefined = false) {
   return fp.compose(
     v =>
@@ -27,7 +44,14 @@ function oneOf(options, defaultvalue, allowUndefined = false) {
 }
 
 function fromCsv() {
-  return fp.compose(v => (v ? v.split(/\s*,\s*/) : undefined), stringOnly);
+  return fp.compose(
+    debug,
+    noEmptyArray,
+    debug,
+    v => (v ? v.split(/\s*,\s*/) : undefined),
+    stripParam,
+    stringOnly
+  );
 }
 
 module.exports = {

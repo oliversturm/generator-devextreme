@@ -15,30 +15,22 @@ module.exports = class extends Generator {
 
     this.registerTransformStream(prettier());
 
-    this.argument('apptype', {
-      type: oneOf(['jquery', 'knockout', 'angular', 'react'], undefined),
-      required: false,
-      desc: 'The type of application project to create. One of jquery, knockout, angular, react.'
-    });
-
     this.option('appname', {
       desc: `Override your application name. Defaults to current folder name.`,
       default: this.appname,
       type: String
     });
 
+    this.argument('apptype', {
+      type: oneOf(['jquery', 'knockout', 'angular', 'react'], undefined),
+      required: false,
+      desc: 'The type of application project to create. One of jquery, knockout, angular, react.'
+    });
+
     this.option('localization', {
       desc: 'Include support for a globalization/localization library. One of globalize, intl. Use --no-localization to switch off.',
       default: 'intl',
-      type: oneOf(['globalize', 'intl'], 'intl', true),
-      alias: 'l'
-    });
-
-    this.option('packaging', {
-      desc: 'Packaging to use for JavaScript files. One of webpack, usecdn, angular-cli (default for Angular).',
-      type: oneOf(['webpack', 'usecdn', 'angular-cli'], 'webpack'),
-      default: 'webpack',
-      alias: 'p'
+      type: oneOf(['globalize', 'intl'], 'intl', true)
     });
 
     this.option('locales', {
@@ -47,21 +39,41 @@ module.exports = class extends Generator {
       type: fromCsv()
     });
 
+    this.option('packaging', {
+      desc: 'Packaging to use for JavaScript files. One of webpack, usecdn, angular-cli (default for Angular).',
+      type: oneOf(['webpack', 'usecdn', 'angular-cli'], 'webpack'),
+      default: 'webpack'
+    });
+
     this.option('language', {
       desc: 'Programming language for the project. One of js, ts (default for Angular).',
       type: oneOf(['js', 'ts'], 'js'),
       default: 'js'
+    });
+
+    this.option('prompts', {
+      desc: 'Show prompts for all options',
+      type: Boolean,
+      default: false,
+      alias: 'p'
     });
   }
 
   _buildPrompts() {
     return [
       {
+        name: 'appname',
+        message: 'Application name',
+        type: 'input',
+        default: this.options.appname,
+        when: () => this.options.prompts
+      },
+      {
         name: 'apptype',
-        message: 'Which application type would you like to create?',
+        message: 'Application type:',
         type: 'list',
-        default: 'jquery',
-        when: () => !this.options.apptype,
+        default: this.options.apptype || 'jquery',
+        when: () => !this.options.apptype || this.options.prompts,
         choices: [
           {
             name: 'jQuery',
@@ -82,6 +94,57 @@ module.exports = class extends Generator {
             name: 'React',
             value: 'react',
             short: 'r'
+          }
+        ]
+      },
+      {
+        name: 'localization',
+        message: 'Localization library:',
+        type: 'list',
+        default: this.options.localization,
+        when: () => this.options.prompts,
+        choices: [
+          {
+            name: 'Intl',
+            value: 'intl',
+            short: 'i'
+          },
+          {
+            name: 'Globalize',
+            value: 'globalize',
+            short: 'g'
+          },
+          {
+            name: 'None',
+            value: undefined,
+            short: 'n'
+          }
+        ]
+      },
+      {
+        name: 'locales',
+        message: "Locales to support other than 'en' (use comma-separated list, for instance: de,ja,en-GB)",
+        when: () => this.options.prompts,
+        default: this.options.locales,
+        type: 'input',
+        filter: fromCsv()
+      },
+      {
+        name: 'packaging',
+        message: 'Packaging system',
+        when: a => a.apptype !== 'angular' && this.options.prompts,
+        default: this.options.packaging,
+        type: 'list',
+        choices: [
+          {
+            name: 'Webpack',
+            value: 'webpack',
+            short: 'w'
+          },
+          {
+            name: 'Use CDN URLs (no packaging)',
+            value: 'usecdn',
+            short: 'c'
           }
         ]
       }
