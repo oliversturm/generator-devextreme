@@ -178,6 +178,9 @@ module.exports = class extends Generator {
         usecdn: {
           jquery: {
             files: ['index.html', 'index.js', 'README.md', '.gitignore']
+          },
+          knockout: {
+            files: ['index.html', 'index.js', 'README.md', '.gitignore']
           }
         }
       },
