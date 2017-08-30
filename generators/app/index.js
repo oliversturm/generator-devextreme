@@ -113,9 +113,14 @@ module.exports = class extends Generator {
         fix: o => (o.language = 'ts')
       },
       {
-        failCond: o => o.apptype !== 'angular' && o.language === 'ts',
+        failCond: o => o.apptype !== 'angular' && o.language !== 'js',
         message: 'Supporting only js as programming language for this project. Reverting.',
         fix: o => (o.language = 'js')
+      },
+      {
+        failCond: o => o.apptype === 'angular' && o.packaging === 'usecdn',
+        message: 'Supporting only angular-cli to package this project. Reverting.',
+        fix: o => (o.packaging = 'angular-cli')
       }
     ];
   }
