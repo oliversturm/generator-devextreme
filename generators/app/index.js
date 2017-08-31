@@ -39,8 +39,8 @@ module.exports = class extends Generator {
       type: fromCsv()
     });
 
-    this.option('packaging', {
-      desc: 'Packaging to use for JavaScript files. One of webpack, usecdn, angular-cli (default for Angular).',
+    this.option('bundling', {
+      desc: 'Bundling to use for JavaScript files. One of webpack, usecdn, angular-cli (default for Angular).',
       type: oneOf(['webpack', 'usecdn', 'angular-cli'], 'webpack'),
       default: 'webpack'
     });
@@ -130,10 +130,10 @@ module.exports = class extends Generator {
         filter: fromCsv()
       },
       {
-        name: 'packaging',
-        message: 'Packaging system',
+        name: 'bundling',
+        message: 'Bundling system',
         when: a => a.apptype !== 'angular' && this.options.prompts,
-        default: this.options.packaging,
+        default: this.options.bundling,
         type: 'list',
         choices: [
           {
@@ -142,7 +142,7 @@ module.exports = class extends Generator {
             short: 'w'
           },
           {
-            name: 'Use CDN URLs (no packaging)',
+            name: 'Use CDN URLs (no bundling)',
             value: 'usecdn',
             short: 'c'
           }
@@ -168,8 +168,8 @@ module.exports = class extends Generator {
         fix: o => (o.localization = 'intl')
       },
       {
-        failCond: o => o.apptype === 'angular' && o.packaging === 'webpack',
-        fix: o => (o.packaging = 'angular-cli')
+        failCond: o => o.apptype === 'angular' && o.bundling === 'webpack',
+        fix: o => (o.bundling = 'angular-cli')
       },
       {
         failCond: o => o.apptype === 'angular' && o.language !== 'ts',
@@ -181,9 +181,9 @@ module.exports = class extends Generator {
         fix: o => (o.language = 'js')
       },
       {
-        failCond: o => o.apptype === 'angular' && o.packaging === 'usecdn',
+        failCond: o => o.apptype === 'angular' && o.bundling === 'usecdn',
         message: 'Supporting only angular-cli to package this project. Reverting.',
-        fix: o => (o.packaging = 'angular-cli')
+        fix: o => (o.bundling = 'angular-cli')
       }
     ];
   }
@@ -291,12 +291,12 @@ module.exports = class extends Generator {
     };
   }
 
-  _getWritingConfig(language, packaging, apptype) {
-    return [language, packaging, apptype].reduce((r, v) => {
+  _getWritingConfig(language, bundling, apptype) {
+    return [language, bundling, apptype].reduce((r, v) => {
       if (r[v]) return r[v];
       else {
         this.log.error(
-          `Can't find templates for this combination of language=${language}, packaging=${packaging} and apptype=${apptype}. Sorry, this case must have slipped by.`
+          `Can't find templates for this combination of language=${language}, bundling=${bundling} and apptype=${apptype}. Sorry, this case must have slipped by.`
         );
         this.env.error('Exiting due to unexpected invalid option combination.');
       }
@@ -316,7 +316,7 @@ module.exports = class extends Generator {
         this.templatePath(
           path.join(
             this.options.language,
-            this.options.packaging,
+            this.options.bundling,
             this.options.apptype,
             f
           )
@@ -328,7 +328,7 @@ module.exports = class extends Generator {
 
     this._getWritingConfig(
       this.options.language,
-      this.options.packaging,
+      this.options.bundling,
       this.options.apptype
     ).files.forEach(copyFileConditionally);
   }
