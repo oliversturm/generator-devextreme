@@ -12,6 +12,12 @@ The template for this project was generated with [Angular CLI](https://github.co
 npm install
 ```
 
+## Executing `ng`
+
+Note that the generated project installs the required version of `ng`. However, for a command like `ng serve`, only a globally installed version would be found. Maintenance of *generator-devextreme* tries to keep up with Angular CLI releases, but theoretically your installed global version could be incompatible with the project setup.
+
+To use the version of `ng` that is definitely compatible with the generated project, you need to execute `node_modules/.bin/ng`. Alternatively, you can use the scripts defined in `package.json`, since these automatically use the local `ng` version. For instance, instead of `ng serve` you can run `npm start`, and `ng build` can be replaced by `npm run build`.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

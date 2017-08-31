@@ -99,15 +99,18 @@ Install dependencies:
 npm install
 ```
 
-Run the development web server (`npm start` also works):
+Run the development web server, making sure to use the project-specific version of `ng`:
 
 ```shell
-ng serve
+node_modules/.bin/ng serve
+
+** alternatively:
+npm start
 ```
 
 Navigate to http://localhost:4200 in a browser.
 
-Note that [additional commands](https://github.com/angular/angular-cli/wiki#additional-commands) based on Angular CLI also work.
+Note that [additional commands](https://github.com/angular/angular-cli/wiki#additional-commands) based on Angular CLI also work. Please see the README.md in your generated Angular project for a few details on executing `ng`.
 
 ## Sample repositories
 
