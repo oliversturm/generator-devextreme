@@ -210,7 +210,7 @@ module.exports = class extends Generator {
               'src/index.html',
               'src/index.js',
               {
-                file: 'src/localization.js',
+                source: 'src/localization.js',
                 when: o => o.localization
               },
               'README.md',
@@ -218,7 +218,10 @@ module.exports = class extends Generator {
               'webpack.dev.js',
               'webpack.prod.js',
               'package.json',
-              '.gitignore'
+              {
+                source: 'gitignore',
+                target: '.gitignore'
+              }
             ]
           },
           knockout: {
@@ -226,7 +229,7 @@ module.exports = class extends Generator {
               'src/index.html',
               'src/index.js',
               {
-                file: 'src/localization.js',
+                source: 'src/localization.js',
                 when: o => o.localization
               },
               'README.md',
@@ -234,16 +237,35 @@ module.exports = class extends Generator {
               'webpack.dev.js',
               'webpack.prod.js',
               'package.json',
-              '.gitignore'
+              {
+                source: 'gitignore',
+                target: '.gitignore'
+              }
             ]
           }
         },
         usecdn: {
           jquery: {
-            files: ['index.html', 'index.js', 'README.md', '.gitignore']
+            files: [
+              'index.html',
+              'index.js',
+              'README.md',
+              {
+                source: 'gitignore',
+                target: '.gitignore'
+              }
+            ]
           },
           knockout: {
-            files: ['index.html', 'index.js', 'README.md', '.gitignore']
+            files: [
+              'index.html',
+              'index.js',
+              'README.md',
+              {
+                source: 'gitignore',
+                target: '.gitignore'
+              }
+            ]
           }
         }
       },
@@ -253,7 +275,10 @@ module.exports = class extends Generator {
             files: [
               '.angular-cli.json',
               '.editorconfig',
-              '.gitignore',
+              {
+                source: 'gitignore',
+                target: '.gitignore'
+              },
               'karma.conf.js',
               'package.json',
               'protractor.conf.js',
@@ -278,7 +303,7 @@ module.exports = class extends Generator {
               'src/app/app.component.ts',
               'src/app/app.module.ts',
               {
-                file: 'src/app/localization.ts',
+                source: 'src/app/localization.ts',
                 when: o => o.localization
               },
               'src/assets/.gitkeep',
@@ -306,25 +331,36 @@ module.exports = class extends Generator {
   writing() {
     const that = this;
 
-    const getFileConditionally = fi =>
+    const wrapFile = fi =>
       typeof fi === 'string'
-        ? fi
-        : fi.when.bind(this)(this.options) ? fi.file : undefined;
-    const copyFile = (f =>
-      f &&
+        ? {
+            source: fi
+          }
+        : fi;
+
+    const getFileConditionally = fi =>
+      fi.when ? (fi.when.bind(this)(this.options) ? fi : undefined) : fi;
+
+    const copyFile = (fi =>
+      fi &&
       this.fs.copyTpl(
         this.templatePath(
           path.join(
             this.options.language,
             this.options.bundling,
             this.options.apptype,
-            f
+            fi.source
           )
         ),
-        this.destinationPath(f),
+        this.destinationPath(fi.target || fi.source),
         this.options
       )).bind(this);
-    const copyFileConditionally = fp.compose(copyFile, getFileConditionally);
+
+    const copyFileConditionally = fp.compose(
+      copyFile,
+      getFileConditionally,
+      wrapFile
+    );
 
     this._getWritingConfig(
       this.options.language,
