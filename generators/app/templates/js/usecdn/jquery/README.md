@@ -6,23 +6,4 @@ Based on options used when the generator was run, localization support has been 
 
 ## Running the project
 
-Install dependencies:
-
-```shell
-npm install
-```
-
-Run the development web server:
-
-```shell
-npm start
-```
-
-## Building for production
-
-A build script is provided to build with the production configuration in `webpack.prod.js`:
-
-```shell
-npm run build
-```
-
+Open the file `index.html` in a browser.
