@@ -1,10 +1,10 @@
 # A Yeoman generator for DevExtreme projects
 
-*generator-devextreme* creates new projects that utilize [DevExtreme](https://js.devexpress.com) widgets, targeting various platforms.
+*generator-devextreme* creates new projects that utilize [DevExtreme](https://js.devexpress.com) widgets, targeting jQuery, Knockout and Angular.
 
 ## Requirements
 
-You need Yeoman, more specifically the [yo command](https://github.com/yeoman/yo), which is in turn based on [Node.js](https://nodejs.org/en/) (I recommend using [nvm](https://github.com/creationix/nvm)). Assuming you have Node installed, making *yo* available globally on your system requires only this command:
+You need Yeoman, more specifically the [yo command](https://github.com/yeoman/yo), which is based on [Node.js](https://nodejs.org/en/) (I recommend using [nvm](https://github.com/creationix/nvm)). Assuming you have Node installed, making *yo* available globally on your system requires only this command:
 
 ```shell
 npm install -g yo
