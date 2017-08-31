@@ -45,9 +45,7 @@ function oneOf(options, defaultvalue, allowUndefined = false) {
 
 function fromCsv() {
   return fp.compose(
-    debug,
     noEmptyArray,
-    debug,
     v => (v ? v.split(/\s*,\s*/) : undefined),
     stripParam,
     stringOnly
