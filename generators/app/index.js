@@ -329,8 +329,6 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    const that = this;
-
     const wrapFile = fi =>
       typeof fi === 'string'
         ? {
