@@ -208,6 +208,8 @@ module.exports = class extends Generator {
       }
     }
 
+    this.options.generatorversion = require('../../package.json').version;
+
     this.options.printoptions = JSON.stringify(
       this.options,
       ['appname', 'apptype', 'localization', 'locales', 'bundling', 'language'],

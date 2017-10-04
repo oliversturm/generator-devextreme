@@ -1,6 +1,6 @@
 # DevExtreme with Webpack and jQuery
 
-This starter project has been created by [generator-devextreme](https://github.com/oliversturm/generator-devextreme) and includes [jQuery](https://jquery.com/) and [DevExtreme](https://js.devexpress.com/) widgets. 
+This starter project has been created by [generator-devextreme](https://github.com/oliversturm/generator-devextreme) version <%- generatorversion %> and includes [jQuery](https://jquery.com/) and [DevExtreme](https://js.devexpress.com/) widgets. 
 
 These options were used to generate the project:
 
