@@ -11,7 +11,7 @@
 <% } -%>
     "jquery": "^3.1.1",
     "knockout": "^3.4.2",
-    "devextreme": "~17.1.4",
+    "devextreme": "~17.1.6",
     "css-loader": "^0.28.5",
     "file-loader": "^0.11.2",
     "html-loader": "^0.5.1",

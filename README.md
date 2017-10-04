@@ -55,7 +55,7 @@ These are the supported project types:
 | --- | --- |
 | `jquery` | [jQuery](https://jquery.com/) based project |
 | `knockout` | [Knockout](http://knockoutjs.com/) based project, using a view model bound to the DevExtreme widgets |
-| `angular` | [Angular](https://angular.io/) based project, utilizing the integration provided with the DevExtreme widgets. This project is based on [Angular CLI](https://cli.angular.io/) version 1.3.2. |
+| `angular` | [Angular](https://angular.io/) based project, utilizing the integration provided with the DevExtreme widgets. This project is based on [Angular CLI](https://cli.angular.io/) version 1.4.4. |
 
 ### Options
 
