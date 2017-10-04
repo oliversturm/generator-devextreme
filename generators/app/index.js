@@ -24,11 +24,13 @@ module.exports = class extends Generator {
     this.argument('apptype', {
       type: oneOf(['jquery', 'knockout', 'angular', 'react'], undefined),
       required: false,
-      desc: 'The type of application project to create. One of jquery, knockout, angular, react.'
+      desc:
+        'The type of application project to create. One of jquery, knockout, angular, react.'
     });
 
     this.option('localization', {
-      desc: 'Include support for a globalization/localization library. One of globalize, intl. Use --no-localization to switch off.',
+      desc:
+        'Include support for a globalization/localization library. One of globalize, intl. Use --no-localization to switch off.',
       default: 'intl',
       type: oneOf(['globalize', 'intl'], 'intl', true)
     });
@@ -40,13 +42,15 @@ module.exports = class extends Generator {
     });
 
     this.option('bundling', {
-      desc: 'Bundling to use for JavaScript files. One of webpack, usecdn, angular-cli (default for Angular).',
+      desc:
+        'Bundling to use for JavaScript files. One of webpack, usecdn, angular-cli (default for Angular).',
       type: oneOf(['webpack', 'usecdn', 'angular-cli'], 'webpack'),
       default: 'webpack'
     });
 
     this.option('language', {
-      desc: 'Programming language for the project. One of js, ts (default for Angular).',
+      desc:
+        'Programming language for the project. One of js, ts (default for Angular).',
       type: oneOf(['js', 'ts'], 'js'),
       default: 'js'
     });
@@ -123,7 +127,8 @@ module.exports = class extends Generator {
       },
       {
         name: 'locales',
-        message: "Locales to support other than 'en' (use comma-separated list, for instance: de,ja,en-GB)",
+        message:
+          "Locales to support other than 'en' (use comma-separated list, for instance: de,ja,en-GB)",
         when: () => this.options.prompts,
         default: this.options.locales,
         type: 'input',
@@ -164,7 +169,8 @@ module.exports = class extends Generator {
       {
         failCond: o =>
           o.apptype === 'angular' && o.localization === 'globalize',
-        message: "Don't know how to build Angular project with Globalize. Using Intl instead.",
+        message:
+          "Don't know how to build Angular project with Globalize. Using Intl instead.",
         fix: o => (o.localization = 'intl')
       },
       {
@@ -177,12 +183,14 @@ module.exports = class extends Generator {
       },
       {
         failCond: o => o.apptype !== 'angular' && o.language !== 'js',
-        message: 'Supporting only js as programming language for this project. Reverting.',
+        message:
+          'Supporting only js as programming language for this project. Reverting.',
         fix: o => (o.language = 'js')
       },
       {
         failCond: o => o.apptype === 'angular' && o.bundling === 'usecdn',
-        message: 'Supporting only angular-cli to package this project. Reverting.',
+        message:
+          'Supporting only angular-cli to package this project. Reverting.',
         fix: o => (o.bundling = 'angular-cli')
       }
     ];
@@ -199,6 +207,12 @@ module.exports = class extends Generator {
         }
       }
     }
+
+    this.options.printoptions = JSON.stringify(
+      this.options,
+      ['appname', 'apptype', 'localization', 'locales', 'bundling', 'language'],
+      2
+    );
   }
 
   _buildWritingConfig() {
