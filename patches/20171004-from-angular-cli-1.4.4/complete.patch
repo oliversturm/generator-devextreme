@@ -1,0 +1,133 @@
+diff --git a/.angular-cli.json b/.angular-cli.json
+index 734b2c0..74bc479 100644
+--- a/.angular-cli.json
++++ b/.angular-cli.json
+@@ -19,6 +19,8 @@
+       "testTsconfig": "tsconfig.spec.json",
+       "prefix": "app",
+       "styles": [
++        "../node_modules/devextreme/dist/css/dx.common.css",
++        "../node_modules/devextreme/dist/css/dx.light.css",
+         "styles.css"
+       ],
+       "scripts": [],
+diff --git a/.gitignore b/.gitignore
+index 54bfd20..5a2ae24 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -40,3 +40,5 @@ testem.log
+ # System Files
+ .DS_Store
+ Thumbs.db
++
++*~
+diff --git a/package.json b/package.json
+index d4f60f4..ec5a420 100644
+--- a/package.json
++++ b/package.json
+@@ -22,6 +22,9 @@
+     "@angular/platform-browser-dynamic": "^4.2.4",
+     "@angular/router": "^4.2.4",
+     "core-js": "^2.4.1",
++    "devextreme": "^17.1.6",
++    "devextreme-angular": "^17.1.6",
++    "devextreme-intl": "^17.1.4",
+     "rxjs": "^5.4.2",
+     "zone.js": "^0.8.14"
+   },
+diff --git a/src/app/app.component.html b/src/app/app.component.html
+index 46d517b..1e5bdd1 100644
+--- a/src/app/app.component.html
++++ b/src/app/app.component.html
+@@ -16,5 +16,10 @@
+   <li>
+     <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
+   </li>
++
+ </ul>
+ 
++<h2>DevExtreme widgets:</h2>
++<dx-button text="Say 'Hello world'" (onClick)="helloWorld()"></dx-button>
++<dx-date-box placeholder="Please enter a date"></dx-date-box>
++
+diff --git a/src/app/app.component.ts b/src/app/app.component.ts
+index 7b0f672..7afbc69 100644
+--- a/src/app/app.component.ts
++++ b/src/app/app.component.ts
+@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
+   styleUrls: ['./app.component.css']
+ })
+ export class AppComponent {
+-  title = 'app';
++    title = 'app';
++
++    helloWorld() {
++        alert('Hello World!');
++    }
+ }
+diff --git a/src/app/app.module.ts b/src/app/app.module.ts
+index f657163..690088d 100644
+--- a/src/app/app.module.ts
++++ b/src/app/app.module.ts
+@@ -3,12 +3,18 @@ import { NgModule } from '@angular/core';
+ 
+ import { AppComponent } from './app.component';
+ 
++import { DxButtonModule, DxDateBoxModule } from 'devextreme-angular';
++
++import './localization';
++
+ @NgModule({
+   declarations: [
+     AppComponent
+   ],
+   imports: [
+-    BrowserModule
++      BrowserModule,
++      DxButtonModule,
++      DxDateBoxModule
+   ],
+   providers: [],
+   bootstrap: [AppComponent]
+diff --git a/src/app/localization.ts b/src/app/localization.ts
+new file mode 100644
+index 0000000..6ef054f
+--- /dev/null
++++ b/src/app/localization.ts
+@@ -0,0 +1,36 @@
++// Pacify TypeScript. Seriously.... types in a dynamic world? Nothing
++// but hassle.
++
++// Not sure why this seems to be required - @types/node is installed
++// and I understand that should make require available. But it doesn't
++// work without an extra configuration like this.
++declare var require: any;
++
++// Extend the Navigator so we can be flexible about retrieving the
++// language prefs from it. Apparently this should work, but it doesn't.
++// interface Navigator {
++//     browserLanguage?: string;
++// }
++declare var navigator: any;
++
++const locales = ['en', 'de'];
++
++import 'devextreme-intl';
++
++const { loadMessages, locale } = require('devextreme/localization');
++        
++const shorten = l => l.replace(/-.*$/, '');
++new Set(locales.map(shorten).filter(i => i !== 'en')).forEach(locale =>
++                                                              loadMessages(require(`devextreme/localization/messages/${locale}.json`))
++                                                             );
++
++// Setting locale depending on browser settings, taking into account
++// available locales.
++const requestedLocale = navigator.language || navigator.browserLanguage;
++const setLocale = locales.find(i => i === requestedLocale) ||
++    locales.find(i => i === shorten(requestedLocale)) ||
++    'en';
++locale(setLocale);
++
++// Alternatively, set a specific locale:
++ locale('de');

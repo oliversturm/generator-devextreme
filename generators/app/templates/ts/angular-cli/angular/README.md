@@ -4,7 +4,7 @@ This starter project has been created by [generator-devextreme](https://github.c
 
 Based on options used when the generator was run, localization support has <% if (localization === 'globalize') { %>been included on the basis of [Globalize](https://github.com/globalizejs/globalize)<% } else if (localization === 'intl') { %>been included on the basis of [Intl](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Intl) and the [DevExtreme-Intl](https://github.com/DevExpress/DevExtreme-Intl) library<% } else {%>not been included<% } %>. <% if(locales && locales.length) {%>In addition to the language files for the 'en' locale, which are included by default, the following locales have also been added: <%- locales.join(', ') %>.<% } else { %>No language files apart from those for the standard 'en' locale have been added.<% } %>
 
-The template for this project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.2.
+The template for this project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.4.
 
 ## Install dependencies
 
@@ -37,7 +37,6 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 ## Running end-to-end tests
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
 
 ## Further help
 
